@@ -3,7 +3,7 @@
 * 完整程式碼：[project.js](https://github.com/ChiaYuSu/sp106b/blob/master/project/project.js)
 * 編譯過程：
   * add.asm
-  ```assembler
+  ```nasm
     // This file is part of www.nand2tetris.org
     // and the book "The Elements of Computing Systems"
     // by Nisan and Schocken, MIT Press.
