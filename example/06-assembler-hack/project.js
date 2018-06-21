@@ -82,6 +82,7 @@ var symTable = {
 };
 
 var symTop = 16; // 新的變數從 16 開始，前 15 個為預設指令
+var symlocation = 0;
 
 function addSymbol(symbol) {  // 增加變數
   symTable[symbol] = symTop; // 將新的變數放進 symTable 裡面
@@ -102,7 +103,6 @@ function parser(line, i) {
   line.match(/^([^\/]*)(\/.*)?$/);
   line = RegExp.$1.trim();
 
-
   // 判斷該行為空
   if (line.length === 0)
   return null;
@@ -110,15 +110,34 @@ function parser(line, i) {
   // A 指令
   if (line.startsWith("@")) {
     var num = line.substring(1).trim() // 只保留 @ 後面的數字
-    num = num - 0 // 轉成數字
-    var numbinary = num.toString(2) // 十進位轉二進位
-    numbinary = "0" + numbinary // 對齊
-    var numlength = numbinary.length 
-    for (var i=0;i<16-numlength;i++) { // 前面補零
-      numbinary = "0" + numbinary
+    if (num.match(/^\d+$/)) {
+      num = num - 0 // 轉成數字
+      var numbinary = num.toString(2) // 十進位轉二進位
+      numbinary = "0" + numbinary // 對齊
+      var numlength = numbinary.length 
+      for (var i = 0; i < 16 - numlength; i++) { // 前面補零
+        numbinary = "0" + numbinary
+      }
+      c.log(line)
+      c.log(numbinary)
     }
-    c.log(line)
-    c.log(numbinary)
+
+     else {
+      if (symTable[num] == undefined) {
+        symTable[num] = symTop;
+        symTop++;
+      }
+      var num2 = symTable[num];
+      num2 = num2 - 0
+      var num2binary = num2.toString(2)
+      num2binary = "0" + num2binary
+      var num2length = num2binary.length
+      for (var j = 0; j < 16 - num2length; j++) {
+        num2binary = "0" + num2binary
+      }
+      c.log(line)
+      c.log(num2binary)
+    } 
   }
 
   // C 指令
