@@ -129,7 +129,8 @@ function parser(line, i) {
       c.log(numbinary)
     }
 
-     else {
+    // L 指令 
+    else {
       if (symTable[num] == undefined) {
         symTable[num] = symTop;
         symTop++;
@@ -147,22 +148,22 @@ function parser(line, i) {
     } 
   }
 
-  // C 指令
-  else {   
-    if (line.indexOf("=") != -1) { // 判斷 line 中是否有 =
-      lengths = line.split("=")
-      numbinary = "111" + ctable[lengths[1]] + dtable[lengths[0]] + "000"
-      c.log(line)
-      c.log(numbinary)
-    }
-    else if (line.indexOf(";") !=-1) { // 判斷 line 中是否有 ;
-      lengths = line.split(";")
-      numbinary = "111" + ctable[lengths[0]] + "000" + jtable[lengths[1]]
-      c.log(line)
-      c.log(numbinary)
+    // C 指令
+    else {   
+      if (line.indexOf("=") != -1) { // 判斷 line 中是否有 =
+        lengths = line.split("=")
+        numbinary = "111" + ctable[lengths[1]] + dtable[lengths[0]] + "000"
+        c.log(line)
+        c.log(numbinary)
+      }
+      else if (line.indexOf(";") !=-1) { // 判斷 line 中是否有 ;
+        lengths = line.split(";")
+        numbinary = "111" + ctable[lengths[0]] + "000" + jtable[lengths[1]]
+        c.log(line)
+        c.log(numbinary)
+      }
     }
   }
-}
 function pass(line) {
   if (line[0] == "(") {
     line.match(/^\(([^\)]+)\)$/);
