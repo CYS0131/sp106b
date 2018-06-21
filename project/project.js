@@ -95,11 +95,10 @@ function assemble(asmFile, objFile) {               // assemble(輸入 , 輸出)
   var asmText = fs.readFileSync(asmFile, "utf8");   // 讀取檔案到 text 字串中 // 第一步驟：讀檔
   var lines   = asmText.split(/\r?\n/);             // 將組合語言分割成一行一行 // 第二步驟：將字串拆行變陣列 // \r carriage return（回車鍵，回到頭） // \n 換行 // ? 比對前一個字元，0次或1次 // split("t") 000t111t222 --> {000, 111, 222} 以 t 分割
   for (line of lines) {
-    line.match(/^([^\/]*)(\/.*)?$/)
-    line = RegExp.$1.trim();
-    if (line.length != 0) {
+    line.match(/^([^\/]*)(\/.*)?$/) // 比對註解
+    line = RegExp.$1.trim(); // 把前後空白去掉
+    if (line.length != 0) 
       pass(line);
-    }
   }
   for (var i = 0; i < lines.length; i++) {
     parser (lines[i]);
@@ -129,9 +128,9 @@ function parser(line, i) {
       c.log(numbinary)
     }
 
-    // L 指令 
+    // A 指令（變數的部分） 
     else {
-      if (symTable[num] == undefined) {
+      if (symTable[num] === undefined) {
         symTable[num] = symTop;
         symTop++;
       }
@@ -164,6 +163,8 @@ function parser(line, i) {
       }
     }
   }
+
+// Symbol 指令
 function pass(line) {
   if (line[0] == "(") {
     line.match(/^\(([^\)]+)\)$/);
