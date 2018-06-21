@@ -94,6 +94,13 @@ assemble(file+'.asm', file+'.hack');                // assemble(輸入檔案為 
 function assemble(asmFile, objFile) {               // assemble(輸入 , 輸出) // 利用正規表達式處理
   var asmText = fs.readFileSync(asmFile, "utf8");   // 讀取檔案到 text 字串中 // 第一步驟：讀檔
   var lines   = asmText.split(/\r?\n/);             // 將組合語言分割成一行一行 // 第二步驟：將字串拆行變陣列 // \r carriage return（回車鍵，回到頭） // \n 換行 // ? 比對前一個字元，0次或1次 // split("t") 000t111t222 --> {000, 111, 222} 以 t 分割
+  for (line of lines) {
+    line.match(/^([^\/]*)(\/.*)?$/)
+    line = RegExp.$1.trim();
+    if (line.length != 0) {
+      pass(line);
+    }
+  }
   for (var i = 0; i < lines.length; i++) {
     parser (lines[i]);
   }
@@ -155,4 +162,13 @@ function parser(line, i) {
       c.log(numbinary)
     }
   }
+}
+function pass(line) {
+  if (line[0] == "(") {
+    line.match(/^\(([^\)]+)\)$/);
+    var word = RegExp.$1;
+    symTable[word] = symlocation;
+  }
+  else
+  symlocation++;
 }
